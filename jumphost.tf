@@ -26,4 +26,13 @@ resource "aws_instance" "jumphost" {
     cflt_service = "CTG"
     cflt_keep_until  = formatdate("YYYY-MM-DD", timeadd(timestamp(),"8766h"))
   }
+
+  volume_tags = {
+    cflt_partition = "devel"
+    cflt_managed_by	= "onprem"
+    cflt_managed_id	= "user"
+    cflt_service      = "sven"
+    cflt_environment  = "CTG"
+    cflt_keep_until   = formatdate("YYYY-MM-DD", timeadd(timestamp(),"8766h"))
+  }
 }
