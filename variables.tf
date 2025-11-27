@@ -57,3 +57,12 @@ variable "username" {
   type = string
   description = "Name used to clarify VPC, jump host and key name"
 }
+
+
+variable "confluent_api_secret" {
+  default = ""
+}
+variable "confluent_api_key" {
+  default = ""
+}
+

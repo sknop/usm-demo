@@ -6,3 +6,5 @@ terraform.tfstate.backup
 bootcamp.pem
 .terraform.lock.hcl
 terraform.tfvars
+.envrc
+
