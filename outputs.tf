@@ -37,3 +37,7 @@ output "availability-zones" {
   description = "Availability zones corresponding to the subnet ids"
   value = aws_subnet.usm-private-subnet.*.availability_zone
 }
+
+output "account_id" {
+  value = data.aws_caller_identity.current.account_id
+}

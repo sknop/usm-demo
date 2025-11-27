@@ -2,6 +2,8 @@ provider "aws" {
   region = var.region
 }
 
+data "aws_caller_identity" "current" {}
+
 resource "aws_vpc" "vpc" {
   cidr_block = var.vpc-cidr
   instance_tenancy = "default"
