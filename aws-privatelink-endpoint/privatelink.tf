@@ -74,6 +74,10 @@ resource "aws_route53_zone" "privatelink" {
   vpc {
     vpc_id = data.aws_vpc.privatelink.id
   }
+
+  tags = {
+    Name = "USM Hosted Zone"
+  }
 }
 
 resource "aws_route53_record" "privatelink" {
