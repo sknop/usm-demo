@@ -107,10 +107,18 @@ resource "aws_subnet" "usm-private-subnet" {
   }
 }
 
+data "aws_availability_zones" "subnets" {
+  filter {
+    name = "zone-name"
+    values = [ for s in aws_subnet.usm-private-subnet : s.availability_zone ]
+  }
+}
+
+
 locals {
   subnets_to_privatelink = {
     for subnet in aws_subnet.usm-private-subnet :
-        subnet.availability_zone => subnet.id
+        subnet.availability_zone_id => subnet.id
   }
 }
 
