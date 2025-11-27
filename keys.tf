@@ -4,7 +4,7 @@ resource "tls_private_key" "aws-key" {
 }
 
 resource "aws_key_pair" "bootcamp-key" {
-  key_name = var.bootcamp-key-name + "-" + var.username
+  key_name = "${var.bootcamp-key-name} - ${var.username}"
   public_key = tls_private_key.aws-key.public_key_openssh
 }
 
