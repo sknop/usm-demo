@@ -52,3 +52,8 @@ variable "owner_email" {
 variable "owner_name" {
   type = string
 }
+
+variable "username" {
+  type = string
+  description = "Name used to clarify VPC, jump host and key name"
+}

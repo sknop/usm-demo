@@ -1,5 +1,7 @@
 region = "eu-west-1"
 
+username = <YOUR USERNAME>
+
 vpc-cidr = "172.30.0.0/16"
 public-subnet-cidr = [ "172.30.16.0/20", "172.30.32.0/20", "172.30.48.0/20" ]
 private-subnets-cidr = [ "172.30.64.0/20", "172.30.80.0/20", "172.30.96.0/20" ]

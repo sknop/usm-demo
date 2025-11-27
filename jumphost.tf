@@ -12,7 +12,7 @@ resource "aws_instance" "jumphost" {
   associate_public_ip_address = true
 
   tags = {
-    Name        = "Simple Jumphost"
+    Name        = "USM Jumphost ${var.username}"
     description = "Jumphost for Bootcamp - Managed by Terraform"
     Owner_Name  = var.owner_name
     Owner_Email = var.owner_email

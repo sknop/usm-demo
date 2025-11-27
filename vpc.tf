@@ -8,7 +8,7 @@ resource "aws_vpc" "vpc" {
   enable_dns_hostnames = true
 
   tags = {
-    Name = "usm-vpc"
+    Name = "usm-vpc ${var.username}"
   }
 }
 
