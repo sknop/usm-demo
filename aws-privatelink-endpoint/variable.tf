@@ -14,6 +14,6 @@ variable "dns_domain" {
 }
 
 variable "subnets_to_privatelink" {
-  description = "A list of Subnet ID (ie: [ \"subnet-abcdef0123456789a\", ... ])"
-  type        = list(string)
+  description = "A map of Zone ID to Subnet ID (ie: {\"use1-az1\" = \"subnet-abcdef0123456789a\", ...})"
+  type        = map(string)
 }
