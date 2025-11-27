@@ -107,6 +107,13 @@ resource "aws_subnet" "usm-private-subnet" {
   }
 }
 
+locals {
+  subnets_to_privatelink = {
+    for subnet in aws_subnet.usm-private-subnet :
+        subnet.availability_zone => subnet.id
+  }
+}
+
 resource "aws_route_table_association" "private-subnet-route-table-association" {
   count = length(var.private-subnets-cidr)
   subnet_id      = aws_subnet.usm-private-subnet.*.id[count.index]
@@ -162,34 +169,6 @@ resource "aws_security_group" "external-access" {
 
   tags = {
     Name = "Bootcamp External Access"
-    owner_email = var.owner_email
-    owner_name = var.owner_name
-  }
-}
-
-
-resource "aws_security_group" "endpoint-access" {
-  name = "endpoint-access-sg"
-  description = "Allows free traffic from everywhere for endpoint"
-  vpc_id = aws_vpc.vpc.id
-
-  ingress {
-    description = "Allow all access from a specific host"
-    from_port = 0
-    to_port = 0
-    protocol = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  egress {
-    from_port        = 0
-    to_port          = 0
-    protocol         = "-1"
-    cidr_blocks      = ["0.0.0.0/0"]
-  }
-
-  tags = {
-    Name = "USM Endpoint Access"
     owner_email = var.owner_email
     owner_name = var.owner_name
   }
