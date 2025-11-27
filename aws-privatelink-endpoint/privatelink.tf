@@ -55,6 +55,17 @@ resource "aws_vpc_endpoint" "privatelink" {
 
   subnet_ids = [for zone, subnet_id in var.subnets_to_privatelink: subnet_id]
   private_dns_enabled = false
+
+  tags = {
+    Name        = "USM PrivateLink Endpoint"
+
+    cflt_environment = "devel"
+    cflt_partition = "onprem"
+    cflt_managed_by = "user"
+    cflt_managed_id	= "sven"
+    cflt_service = "CTG"
+    cflt_keep_until  = formatdate("YYYY-MM-DD", timeadd(timestamp(),"8766h"))
+  }
 }
 
 resource "aws_route53_zone" "privatelink" {
