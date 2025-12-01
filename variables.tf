@@ -66,3 +66,20 @@ variable "confluent_api_key" {
   default = ""
 }
 
+variable "enable_eks" {
+  type = bool
+  default = false
+  description = "Enable EKS to deploy a Kubernetes cluster"
+}
+
+variable "prevent-destroy" {
+  type = bool
+  default = true
+  description = "Set to true to protect the jumphost"
+}
+
+variable "usm-manager" {
+  type = string
+  default = "usm-manager"
+  description = "Service account to manage USM agents"
+}

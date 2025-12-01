@@ -35,4 +35,8 @@ resource "aws_instance" "jumphost" {
     cflt_environment  = "CTG"
     cflt_keep_until   = formatdate("YYYY-MM-DD", timeadd(timestamp(),"8766h"))
   }
+
+  lifecycle {
+    prevent_destroy = var.prevent-destroy
+  }
 }
