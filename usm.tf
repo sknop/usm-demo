@@ -9,7 +9,7 @@ resource "confluent_role_binding" "usm-manager-usm-agent" {
   crn_pattern = confluent_environment.usm_environment.resource_name
 }
 
-resource "confluent_role_binding" "usm-manager-usm-agent" {
+resource "confluent_role_binding" "usm-manager-data-steward" {
   principal   = "User:${confluent_service_account.usm-manager.id}"
   role_name   = "DataSteward"
   crn_pattern = confluent_environment.usm_environment.resource_name
