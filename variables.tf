@@ -72,12 +72,6 @@ variable "enable_eks" {
   description = "Enable EKS to deploy a Kubernetes cluster"
 }
 
-variable "prevent-destroy" {
-  type = bool
-  default = true
-  description = "Set to true to protect the jumphost"
-}
-
 variable "usm-manager" {
   type = string
   default = "usm-manager"
