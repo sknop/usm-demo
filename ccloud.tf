@@ -44,7 +44,7 @@ resource "confluent_private_link_attachment_connection" "plac" {
 
 resource "confluent_kafka_cluster" "basic" {
   display_name = "Basic Dummy"
-  availability = "SINGE_ZONE"
+  availability = "SINGLE_ZONE"
   cloud = "AWS"
   region = var.region
 
