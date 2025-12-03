@@ -45,7 +45,7 @@ module "eks"  {
     }
   }
 
-  cluster_addons_managed = {
+  addons = {
     aws-ebs-csi-driver = {
       most_recent = true
     }
