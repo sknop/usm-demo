@@ -70,7 +70,7 @@ data "aws_eks_addon_version" "ebs_csi" {
 
 resource "aws_eks_addon" "vpc-cni" {
   addon_name   = "aws-ebs-csi-driver"
-  cluster_name = module.eks.cluster_id
+  cluster_name = module.eks[0].cluster_id
   addon_version = data.aws_eks_addon_version.ebs_csi.version  # "v1.53.0-eksbuild.1"
 
   resolve_conflicts_on_create = "OVERWRITE"
