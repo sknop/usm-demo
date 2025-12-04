@@ -9,6 +9,8 @@ public-availability-zones = [ "eu-west-1a", "eu-west-1b", "eu-west-1c" ]
 private-availability-zones = [ "eu-west-1a", "eu-west-1b", "eu-west-1c" ]
 
 jumphost-instance-type = "t3.small"
+enable_eks = true
+usm-manager = "usm-manager"
 
 bootcamp-key-name = "usm-key"
 
