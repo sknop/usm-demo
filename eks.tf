@@ -46,9 +46,6 @@ module "eks"  {
   }
 
   addons = {
-    aws-ebs-csi-driver = {
-      most_recent = true
-    }
     coredns                = {}
     eks-pod-identity-agent = {
       before_compute = true
@@ -59,4 +56,23 @@ module "eks"  {
     }
   }
 
+}
+
+data "aws_eks_addon_version" "ebs_csi" {
+  most_recent = true
+  addon_name  = "aws-ebs-csi-driver"
+  kubernetes_version = module.eks.cluster_version
+}
+
+resource "aws_eks_addon" "vpc-cni" {
+  addon_name   = "aws-ebs-csi-driver"
+  cluster_name = module.eks.cluster_id
+  addon_version = data.aws_eks_addon_version.ebs_csi.version  # "v1.53.0-eksbuild.1"
+
+  resolve_conflicts_on_create = "OVERWRITE"
+  resolve_conflicts_on_update = "OVERWRITE"
+
+  timeouts {
+    create = "40m"
+  }
 }
