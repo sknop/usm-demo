@@ -1,3 +1,7 @@
+locals {
+  kubernetes_version =  "1.34"
+}
+
 module "eks"  {
   count = var.enable_eks ? 1 : 0
 
@@ -5,7 +9,7 @@ module "eks"  {
   version = "~> 21.0"
 
   name = "us"
-  kubernetes_version = "1.34"
+  kubernetes_version = local.kubernetes_version
 
   # Optional
   endpoint_public_access = true
@@ -61,7 +65,7 @@ module "eks"  {
 data "aws_eks_addon_version" "ebs_csi" {
   most_recent = true
   addon_name  = "aws-ebs-csi-driver"
-  kubernetes_version = module.eks.cluster_version
+  kubernetes_version =  local.kubernetes_version
 }
 
 resource "aws_eks_addon" "vpc-cni" {
