@@ -1,5 +1,6 @@
 locals {
   kubernetes_version =  "1.34"
+  cluster_name = "usm"
 }
 
 module "eks"  {
@@ -8,7 +9,7 @@ module "eks"  {
   source  = "terraform-aws-modules/eks/aws"
   version = "~> 21.0"
 
-  name = "us"
+  name = local.cluster_name
   kubernetes_version = local.kubernetes_version
 
   # Optional
@@ -70,7 +71,7 @@ data "aws_eks_addon_version" "ebs_csi" {
 
 resource "aws_eks_addon" "vpc-cni" {
   addon_name   = "aws-ebs-csi-driver"
-  cluster_name = module.eks[0].cluster_id
+  cluster_name = local.cluster_name
   addon_version = data.aws_eks_addon_version.ebs_csi.version  # "v1.53.0-eksbuild.1"
 
   resolve_conflicts_on_create = "OVERWRITE"
