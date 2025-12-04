@@ -5,7 +5,7 @@ module "eks"  {
   version = "~> 21.0"
 
   name = "us"
-  kubernetes_version = "1.33"
+  kubernetes_version = "1.34"
 
   # Optional
   endpoint_public_access = true
@@ -48,6 +48,14 @@ module "eks"  {
   addons = {
     aws-ebs-csi-driver = {
       most_recent = true
+    }
+    coredns                = {}
+    eks-pod-identity-agent = {
+      before_compute = true
+    }
+    kube-proxy             = {}
+    vpc-cni                = {
+      before_compute = true
     }
   }
 
