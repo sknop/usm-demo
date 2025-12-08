@@ -42,15 +42,16 @@ resource "confluent_private_link_attachment_connection" "plac" {
   }
 }
 
-resource "confluent_kafka_cluster" "basic" {
-  display_name = "Basic Dummy"
-  availability = "SINGLE_ZONE"
-  cloud = "AWS"
-  region = var.region
-
-  basic {}
-
-  environment {
-    id = confluent_environment.usm_environment.id
-  }
-}
+# Should not be necessary
+# resource "confluent_kafka_cluster" "basic" {
+#   display_name = "Basic Dummy"
+#   availability = "SINGLE_ZONE"
+#   cloud = "AWS"
+#   region = var.region
+#
+#   basic {}
+#
+#   environment {
+#     id = confluent_environment.usm_environment.id
+#   }
+# }
