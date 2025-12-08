@@ -112,7 +112,7 @@ resource "aws_iam_role" "ebs_csi_driver_role" {
 # Attach the required AWS Managed Policy to the IAM Role
 resource "aws_iam_role_policy_attachment" "ebs_csi_driver_attach" {
   role       = aws_iam_role.ebs_csi_driver_role.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_EBS_CSI_Driver_Policy"
+  policy_arn = "arn:aws:iam:aws:policy/AmazonEKS_EBS_CSI_Driver_Policy"
 }
 
 # Configure the EBS CSI Driver add-on
