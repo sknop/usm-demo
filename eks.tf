@@ -103,6 +103,10 @@ data "aws_iam_policy_document" "ebs_csi_driver_assume_role" {
 resource "aws_iam_role" "ebs_csi_driver_role" {
   name               = "EKS-${one(module.eks[*].cluster_id)}-EBS-CSI-Driver-Role"
   assume_role_policy = data.aws_iam_policy_document.ebs_csi_driver_assume_role.json
+
+  depends_on = [
+    module.eks
+  ]
 }
 
 # Attach the required AWS Managed Policy to the IAM Role
