@@ -117,7 +117,7 @@ resource "aws_iam_role_policy_attachment" "ebs_csi_driver_attach" {
 
 # Configure the EBS CSI Driver add-on
 resource "aws_eks_addon" "ebs_csi_driver" {
-  cluster_name             = one(module.eks[*].cluster_id)
+  cluster_name             = one(module.eks[*].cluster_name)
   addon_name               = "aws-ebs-csi-driver"
   addon_version            = data.aws_eks_addon_version.ebs_csi.version  # "v1.53.0-eksbuild.1"
   resolve_conflicts_on_create = "OVERWRITE"
