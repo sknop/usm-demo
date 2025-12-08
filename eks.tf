@@ -69,15 +69,63 @@ data "aws_eks_addon_version" "ebs_csi" {
   kubernetes_version =  local.kubernetes_version
 }
 
-resource "aws_eks_addon" "vpc-cni" {
-  addon_name   = "aws-ebs-csi-driver"
-  cluster_name = module.eks[0].cluster_name
-  addon_version = data.aws_eks_addon_version.ebs_csi.version  # "v1.53.0-eksbuild.1"
+data aws_caller_identity "current" { }
 
-  resolve_conflicts_on_create = "OVERWRITE"
-  resolve_conflicts_on_update = "OVERWRITE"
+# Data source to generate the trust policy for the EKS Service Account
+data "aws_iam_policy_document" "ebs_csi_driver_assume_role" {
+  statement {
+    actions = ["sts:AssumeRoleWithWebIdentity"]
+    effect  = "Allow"
 
-  timeouts {
-    create = "40m"
+    principals {
+      type        = "Federated"
+      # Reference the OIDC Provider ARN output from the EKS module
+      identifiers = [module.eks[0].oidc_provider_arn]
+    }
+
+    condition {
+      test     = "StringEquals"
+      # Use the Cluster OIDC Issuer URL output and clean it up for the 'sub' condition
+      variable = "${replace(module.eks[0].cluster_oidc_issuer_url, "https://", "")}:sub"
+      values   = ["system:serviceaccount:kube-system:ebs-csi-controller-sa"]
+    }
+
+    condition {
+      test     = "StringEquals"
+      # Use the Cluster OIDC Issuer URL output and clean it up for the 'aud' condition
+      variable = "${replace(module.eks[0].cluster_oidc_issuer_url, "https://", "")}:aud"
+      values   = ["sts.amazonaws.com"]
+    }
   }
+}
+
+# IAM Role for the EBS CSI Driver
+resource "aws_iam_role" "ebs_csi_driver_role" {
+  name               = "EKS-${module.eks[0].cluster_id}-EBS-CSI-Driver-Role"
+  assume_role_policy = data.aws_iam_policy_document.ebs_csi_driver_assume_role.json
+}
+
+# Attach the required AWS Managed Policy to the IAM Role
+resource "aws_iam_role_policy_attachment" "ebs_csi_driver_attach" {
+  role       = aws_iam_role.ebs_csi_driver_role.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverServiceRole"
+}
+
+# Configure the EBS CSI Driver add-on
+resource "aws_eks_addon" "ebs_csi_driver" {
+  cluster_name             = module.eks[0].cluster_id
+  addon_name               = "aws-ebs-csi-driver"
+  addon_version            = data.aws_eks_addon_version.ebs_csi.version  # "v1.53.0-eksbuild.1"
+  resolve_conflicts_on_create = "OVERWRITE"
+  resolve_conflicts_on_update = "PRESERVE"
+
+  service_account_role_arn = aws_iam_role.ebs_csi_driver_role.arn
+
+  # CRITICAL: Wait for the IAM Role components and OIDC provider to be ready
+  depends_on = [
+    aws_iam_role.ebs_csi_driver_role,
+    aws_iam_role_policy_attachment.ebs_csi_driver_attach,
+    # This ensures the OIDC provider resource is created before using its ARN/URL
+    module.eks[0].oidc_provider_arn
+  ]
 }
