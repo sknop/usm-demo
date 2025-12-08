@@ -80,20 +80,20 @@ data "aws_iam_policy_document" "ebs_csi_driver_assume_role" {
     principals {
       type        = "Federated"
       # Reference the OIDC Provider ARN output from the EKS module
-      identifiers = [module.eks[0].oidc_provider_arn]
+      identifiers = [one(module.eks[*].oidc_provider_arn)]
     }
 
     condition {
       test     = "StringEquals"
       # Use the Cluster OIDC Issuer URL output and clean it up for the 'sub' condition
-      variable = "${replace(module.eks[0].cluster_oidc_issuer_url, "https://", "")}:sub"
+      variable = "${replace(one(module.eks[*].cluster_oidc_issuer_url), "https://", "")}:sub"
       values   = ["system:serviceaccount:kube-system:ebs-csi-controller-sa"]
     }
 
     condition {
       test     = "StringEquals"
       # Use the Cluster OIDC Issuer URL output and clean it up for the 'aud' condition
-      variable = "${replace(module.eks[0].cluster_oidc_issuer_url, "https://", "")}:aud"
+      variable = "${replace(one(module.eks[*].cluster_oidc_issuer_url), "https://", "")}:aud"
       values   = ["sts.amazonaws.com"]
     }
   }
@@ -101,7 +101,7 @@ data "aws_iam_policy_document" "ebs_csi_driver_assume_role" {
 
 # IAM Role for the EBS CSI Driver
 resource "aws_iam_role" "ebs_csi_driver_role" {
-  name               = "EKS-${module.eks[0].cluster_id}-EBS-CSI-Driver-Role"
+  name               = "EKS-${one(module.eks[*].cluster_id)}-EBS-CSI-Driver-Role"
   assume_role_policy = data.aws_iam_policy_document.ebs_csi_driver_assume_role.json
 }
 
@@ -113,7 +113,7 @@ resource "aws_iam_role_policy_attachment" "ebs_csi_driver_attach" {
 
 # Configure the EBS CSI Driver add-on
 resource "aws_eks_addon" "ebs_csi_driver" {
-  cluster_name             = module.eks[0].cluster_id
+  cluster_name             = one(module.eks[*].cluster_id)
   addon_name               = "aws-ebs-csi-driver"
   addon_version            = data.aws_eks_addon_version.ebs_csi.version  # "v1.53.0-eksbuild.1"
   resolve_conflicts_on_create = "OVERWRITE"

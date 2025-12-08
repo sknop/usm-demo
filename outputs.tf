@@ -45,3 +45,7 @@ output "account_id" {
 output "eks_cluster_name" {
   value = module.eks[0].cluster_name
 }
+
+output "eks_cluster_id" {
+  value = module.eks[0].cluster_id
+}
