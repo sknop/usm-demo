@@ -101,7 +101,7 @@ data "aws_iam_policy_document" "ebs_csi_driver_assume_role" {
 
 # IAM Role for the EBS CSI Driver
 resource "aws_iam_role" "ebs_csi_driver_role" {
-  name               = "EKS-${one(module.eks[*].cluster_id)}-EBS-CSI-Driver-Role"
+  name               = "EKS-${one(module.eks[*].cluster_name)}-EBS-CSI-Driver-Role"
   assume_role_policy = data.aws_iam_policy_document.ebs_csi_driver_assume_role.json
 
   depends_on = [
