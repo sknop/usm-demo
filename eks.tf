@@ -36,7 +36,7 @@ module "eks"  {
   eks_managed_node_groups = {
     usm_cluster = {
       name = "usm-group-1"
-      instance_types = ["t3.medium"]
+      instance_types = var.eks-instance-types
 
       min_size     = 2
       max_size     = 5
