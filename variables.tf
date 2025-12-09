@@ -77,3 +77,9 @@ variable "usm-manager" {
   default = "usm-manager"
   description = "Service account to manage USM agents"
 }
+
+variable "eks-instance-types" {
+  type = list(string)
+  default = [ "t3.large" ]
+  description = "Instance type of the EKS nodes"
+}
