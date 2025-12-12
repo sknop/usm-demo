@@ -1,6 +1,6 @@
 locals {
   kubernetes_version =  "1.34"
-  cluster_name = "usm"
+  cluster_name = "usm-${var.username}"
 }
 
 module "eks"  {
