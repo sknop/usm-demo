@@ -103,8 +103,10 @@ data "aws_iam_policy_document" "ebs_csi_driver_assume_role" {
 
 # IAM Role for the EBS CSI Driver
 resource "aws_iam_role" "ebs_csi_driver_role" {
+  count = (var.enable_eks) ? 1 : 0
+
   name               = "EKS-${one(module.eks[*].cluster_name)}-EBS-CSI-Driver-Role"
-  assume_role_policy = data.aws_iam_policy_document.ebs_csi_driver_assume_role.json
+  assume_role_policy = data.aws_iam_policy_document.ebs_csi_driver_assume_role[0].json
 
   depends_on = [
     module.eks
@@ -113,7 +115,9 @@ resource "aws_iam_role" "ebs_csi_driver_role" {
 
 # Attach the required AWS Managed Policy to the IAM Role
 resource "aws_iam_role_policy_attachment" "ebs_csi_driver_attach" {
-  role       = aws_iam_role.ebs_csi_driver_role.name
+  count = (var.enable_eks) ? 1 : 0
+
+  role       = aws_iam_role.ebs_csi_driver_role[0].name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
 
   depends_on = [
