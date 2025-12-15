@@ -73,6 +73,8 @@ data aws_caller_identity "current" { }
 
 # Data source to generate the trust policy for the EKS Service Account
 data "aws_iam_policy_document" "ebs_csi_driver_assume_role" {
+  count = (var.enable_eks) ? 1 : 0
+
   statement {
     actions = ["sts:AssumeRoleWithWebIdentity"]
     effect  = "Allow"
