@@ -128,13 +128,15 @@ resource "aws_iam_role_policy_attachment" "ebs_csi_driver_attach" {
 
 # Configure the EBS CSI Driver add-on
 resource "aws_eks_addon" "ebs_csi_driver" {
+  count = (var.enable_eks) ? 1 : 0
+
   cluster_name             = one(module.eks[*].cluster_name)
   addon_name               = "aws-ebs-csi-driver"
   addon_version            = data.aws_eks_addon_version.ebs_csi.version  # "v1.53.0-eksbuild.1"
   resolve_conflicts_on_create = "OVERWRITE"
   resolve_conflicts_on_update = "PRESERVE"
 
-  service_account_role_arn = aws_iam_role.ebs_csi_driver_role.arn
+  service_account_role_arn = aws_iam_role.ebs_csi_driver_role[0].arn
 
   # CRITICAL: Wait for the IAM Role components and OIDC provider to be ready
   depends_on = [
