@@ -47,6 +47,19 @@ If you want to use EKS, set the variable
 Otherwise, set this value to `false` and instead increase the size of your jumphost from `t3.small` to, for example,
 `r6i.2xlarge`, which provides ample of space for the whole cluster within Kubernetes in Docker (Kind).
 
+### CCloud credentials
+
+You need to define two environment variables in your shell
+
+    export TF_VAR_confluent_api_key=<YOUR CCLOUD API Key>
+    export TF_VAR_confluent_api_secret=<YOUR CCLOUD API Secret>
+
+If you prefer, you can also set these variables in your `terraform.tvars` file:
+
+    confluent_api_key = <YOUR CCLOUD API Key>
+    confluent_api_secret = <YOUR CCLOUD API Secret>
+
+### Start deployment via terraform
 
 Once `terraform.tfvars` is set up, run the usual commands, but in two stages:
 

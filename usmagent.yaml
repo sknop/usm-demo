@@ -1,0 +1,43 @@
+apiVersion: platform.confluent.io/v1beta1
+kind: USMAgent
+metadata:
+  name: usm-agent
+  namespace: confluent
+  labels:
+    confluent.io/managed-by: "seknop"
+spec:
+  podTemplate:
+    labels:
+      confluent.io/managed-by: "seknop"
+    # Enable debug logs
+    envVars:
+      - name: USM_AGENT_CUSTOM_ARGS
+        value: -l trace
+  replicas: 1
+  image:
+    application: confluentinc/cp-usm-agent:1.0.0
+    init: confluentinc/confluent-init-container:3.1.0
+    pullPolicy: IfNotPresent
+    #pullSecretRef:
+    #  - confluent-registry
+  externalAccess:
+    type: loadBalancer
+    loadBalancer:
+      domain: my.domain
+      prefix: usm-agent
+      # Basic authentication
+      #authentication:
+      #type: basic/mtls
+      # if auth type basic
+      # basic:
+      #secretRef: setu-basic-auth
+    # TLS secret
+    #tls:
+    #secretRef: tls-usmagent
+  confluentCloudClient:
+    endpoint: "https://api.eu-west-1.AWS.private.confluent.cloud"
+    environmentId: "env-x5nq0q"
+    authentication:
+      type: basic
+      basic:
+        secretRef: setu-ccloud-cred

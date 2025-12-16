@@ -1,0 +1,21 @@
+apiVersion: platform.confluent.io/v1beta1
+kind: SchemaImporter
+metadata:
+  name: schema-importer
+  namespace: confluent
+spec:
+  destinationCluster:
+    schemaRegistryClusterRef:
+      name: schemaregistry
+      namespace: confluent
+  sourceCluster:
+    schemaRegistryRest:
+      endpoint: https://lsrc-2x7pq1.eu-west-1.aws.private.confluent.cloud
+      authentication:
+        type: basic
+        basic:
+          secretRef: cc-sr-credentials
+  schemaRegistryAutomation:
+    exporterName: "schema-exporter"
+  subjects: [":*:"]
+  contextName: ""
