@@ -148,8 +148,6 @@ resource "aws_security_group" "all-usm" {
 
   tags = {
     Name = "Bootcamp Internal Access"
-    owner_email = var.owner_email
-    owner_name = var.owner_name
   }
 }
 
@@ -175,7 +173,5 @@ resource "aws_security_group" "external-access" {
 
   tags = {
     Name = "Bootcamp External Access"
-    owner_email = var.owner_email
-    owner_name = var.owner_name
   }
 }

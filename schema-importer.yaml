@@ -10,7 +10,7 @@ spec:
       namespace: confluent
   sourceCluster:
     schemaRegistryRest:
-      endpoint: https://lsrc-2x7pq1.eu-west-1.aws.private.confluent.cloud
+      endpoint: <YOUR CCLOUD SR ENDPOINT HERE>
       authentication:
         type: basic
         basic:

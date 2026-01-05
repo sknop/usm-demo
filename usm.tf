@@ -1,5 +1,5 @@
 resource "confluent_service_account" "usm-manager" {
-  display_name = var.usm-manager
+  display_name = "${var.usm-manager}-${var.username}"
   description  = "Service account to manage USM agents"
 }
 

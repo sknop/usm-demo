@@ -22,7 +22,7 @@ to set up the resource providers.
 
 > ## ⚠️ CAVEAT: VPN (Twingate) usage ⚠️
 > 
-> You might need to enable Twingate to run the `assume` command so that you can download the configurations from the 
+> ** You might need to enable Twingate to run the `assume` command so that you can download the configurations from the 
 > GitHub account first. Once you have run `assume`, disable Twingate again.
 > 
 > The Terraform script will determine your external IP address and set the security group accordingly so that you
@@ -30,22 +30,16 @@ to set up the resource providers.
 > and hence confuse the script.
 > 
 > The Terraform script will output the ID of your security group (external-vpc-security-group-id) if you want to
-> change the settings later, for example, if you want to rerun the workshop in a different location.
-
-Read through the explanation of the different Kubernetes setups and choose your preferred deployment [here](#kubernetes-setup).
+> change the settings later, for example, if you want to rerun the workshop in a different location.**
 
 Set up terraform.tfvars to your liking. There is a template called `terraform.tfvars.template` you can use by simply
 copying it to `terraform.tfvars`. Adjust the region and your username. We use the username to provide unique names for 
 the environment and service user within the Confluent Cloud.
 
-Also adjust `bootcamp-key-name` to ensure it is unique within your AWS account.
+Also adjust `bootcamp-key-name` to ensure it is unique within your AWS account. Do the same with the `usm-manager` 
+for the Confluent Cloud if required.
 
-If you want to use EKS, set the variable 
-
-    enable_eks = true
-
-Otherwise, set this value to `false` and instead increase the size of your jumphost from `t3.small` to, for example,
-`r6i.2xlarge`, which provides ample of space for the whole cluster within Kubernetes in Docker (Kind).
+Refer to [EKS](eks.tf) if you want to use an EKS cluster (which will take longer to set up).
 
 ### CCloud credentials
 
@@ -71,34 +65,13 @@ Once this has run through, you can deploy the full setup:
 
 ## Kubernetes setup
 
-There are two alternative setups you can use, EKS or Kind on a single instance.
-
-The EKS is closer to a production environment, but requires more resources and takes longer
-to set up (around 30 min). The EKS setup can also fail depending on your AWS account if the tagging policy is too 
-aggressive. We have provided tags for the EKS instances and storage, but in some accounts this does not seem 
-sufficient. If your deployment attempt fails with warnings that ProvisioningFailed, switch to the Kind setup.
-
-### EKS setup
-
-When using EKS, you can deploy to your Kubernetes cluster from your local machine. You will need to install 
-`kubectl` and `helm` to do so. We also advise to install `kubectx` and `kubens` and maybe even `k9s` if not already done.
-
-You will also need the EKS Kubernetes context in your environment. Use this command for that purpose 
-(the EKS cluster name is `usm-<USERNAME>` by default):
-
-    aws eks update-kubeconfig --name usm-<USERNAME> --region <YOUR-REGION>
-
-The EKS deployment via Terraform is pretty complete, but it lacks the StorageClass setup. After creating your namespace
-(usually `confluent`), create your default storage class from `eks/storage.yaml` like so
-
-    kubectl apply -f eks/storage.yml
-
-You can then deploy the CFK operator and your cluster as described below.
+There are two alternative setups you can use, EKS or Kind on a single instance. Refer to [EKS](eks.tf) for details
+on the EKS setup. 
 
 ### Kind setup
 
 The Kind setup requires the installation of Docker, Kind itself and the usual tools like `kubectl` and `helm`.
-To make this process simpler, we provide a script you need to run once to set up your jump host.
+To make this process simpler, we provide a script you need to run once to set up your jumphost.
 
 After you run `terraform apply` successfully, it will print out the IP address of your jump host. We also generated
 a private key associated with the jump host with a local file called `bootcamp.pem`. You can use this to connect 
@@ -108,11 +81,11 @@ to your jump host:
 
 After verifying that you can connect, return to your local machine and upload the setup script and all yaml files, for example:
 
-    scp -i bootcamp.pem kind/* *.yaml ubuntu@<JUMPHOST IP ADDRESS>:   # do not forget the colon
+    scp -i bootcamp.pem kind/* *.yaml *.txt ubuntu@<JUMPHOST IP ADDRESS>:   # do not forget the colon
 
 Log back into your jumphost and run this script to complete the installation. You might have to change the permissions to be executable.
 
-    chmod +x jumphost-setup.sh 
+    chmod +x jumphost-setup.sh # optional
     ./jumphost-setup.sh 
 
 *Log out and back in again* to complete the installation (change of hostname and adding the user to the docker group).
@@ -127,7 +100,8 @@ This will take a few moments. After the creation is complete, follow the instruc
 
 ## General Kubernetes setup
 
-The next steps are the same whether you are using EKS or Kind, just executed either on your local machine or the jumphost.
+The next steps are the same whether you are using EKS or Kind, 
+just executed either on your local machine (EKS) or the jumphost (KIND).
 
 ### Install CFK (operator)
 

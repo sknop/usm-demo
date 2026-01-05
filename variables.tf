@@ -40,16 +40,8 @@ variable "jumphost-instance-type" {
 }
 
 variable "bootcamp-key-name" {
-  default = "bootcamp-key"
+  default = "usm-key"
   description = "Name of key in AWS"
-  type = string
-}
-
-variable "owner_email" {
-  type = string
-}
-
-variable "owner_name" {
   type = string
 }
 
