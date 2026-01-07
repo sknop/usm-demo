@@ -131,6 +131,28 @@ connector yet.
 
 ### Set up usm agent in your Kubernetes environment
 
+The USM agent needs an API Key to contact Confluent Cloud. We will store key and secret as `username` and `password` in
+a Kubernetes secret and refer to this secret in the USM agent.
+
+There is a template file called `secret.template` in your repository as a starting place. Copy the `SERVICE_ACCOUNT_API_KEY`
+and `SERVICE_ACCOUNT_API_SECRET` from the `usm-agent.config.json` file you downloaded earlier and add the to the 
+secret file.
+
+    cp secret.template ccloud-creds.txt
+    vi ccloud-creds.txt # or any of your favourite editors
+    kubectl create secret generic setu-ccloud-cred --from-file=basic.txt=ccloud-creds.txt
+
+You can now install the USM agent.
+
+Copy the file `usmagent.yaml.template` to `usmagent.yaml` and update where indicated with **<REPLACE ME>** with the values
+from your `usm-agent.config.json` file. Then apply the USMAgent:
+
+    cp usmagent.yaml.template usmagent.yaml
+    vi usmagent.yaml
+    kubectl apply -f usmagent.yaml
+
+### Verify the USMAgent updates the metrics in Confluent Cloud
+
 
 ### Create a topic and see it being observed in Confluent Cloud
 

@@ -35,8 +35,8 @@ spec:
     #tls:
     #secretRef: tls-usmagent
   confluentCloudClient:
-    endpoint: "https://api.eu-west-1.AWS.private.confluent.cloud"
-    environmentId: "env-x5nq0q"
+    endpoint: <REPLACE ME>
+    environmentId: <REPLACE ME>
     authentication:
       type: basic
       basic:
