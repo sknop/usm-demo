@@ -8,3 +8,5 @@ bootcamp.pem
 terraform.tfvars
 .envrc
 usmagent.yaml
+ccloud-creds.txt
+cc-sr-creds.txt
