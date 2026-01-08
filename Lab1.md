@@ -145,18 +145,39 @@ secret file.
 You can now install the USM agent.
 
 Copy the file `usmagent.yaml.template` to `usmagent.yaml` and update where indicated with **<REPLACE ME>** with the values
-from your `usm-agent.config.json` file. Then apply the USMAgent:
+from your `usm-agent.config.json` file (hint: copy the value of FRONTDOOR_URL to the endpoint). Then apply the USMAgent:
 
     cp usmagent.yaml.template usmagent.yaml
     vi usmagent.yaml
     kubectl apply -f usmagent.yaml
+    kubectk apply -f cp-with-agent.yaml
+
+The last command will perform a rolling restart of all the brokers, which will take a couple of minutes.
+You can use `kubectl get pods` to verify the brokers are back up and running.
 
 ### Verify the USMAgent updates the metrics in Confluent Cloud
 
+Log into your Confluent Cloud account and verify the cluster is no longer marked in red with delayed metrics,
+but instead marked as running.
+
+You can also navigate into the Cluster and should be able to observe a small traffic (from the Control Center) as well as some
+existing topics.
 
 ### Create a topic and see it being observed in Confluent Cloud
 
+To create a new topic in your cluster, you can execute a bash shell inside one of the Kafka pods:
+
+    kubectl exec -it kafka-0 -c kafka -- bash
+
+In here, you can invoke `kafka-topics` to create a topic:
+
+    kafka-topics --create --topic first-topic --partitions 3 --replication-factor 3 --bootstrap-server kafka:9092
+
+Exit from the bash shell and return to your Confluent Cloud console and refresh the topic list to see new topic 
+appearing.
+
 ### Create a Datagen connector to create some data (and a schema)
+
 
 # Continue with [Lab2](Lab2.md)
 
