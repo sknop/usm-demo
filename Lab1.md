@@ -150,7 +150,7 @@ from your `usm-agent.config.json` file (hint: copy the value of FRONTDOOR_URL to
     cp usmagent.yaml.template usmagent.yaml
     vi usmagent.yaml
     kubectl apply -f usmagent.yaml
-    kubectk apply -f cp-with-agent.yaml
+    kubectl apply -f cp-with-agent.yaml
 
 The last command will perform a rolling restart of all the brokers, which will take a couple of minutes.
 You can use `kubectl get pods` to verify the brokers are back up and running.
@@ -171,12 +171,52 @@ To create a new topic in your cluster, you can execute a bash shell inside one o
 
 In here, you can invoke `kafka-topics` to create a topic:
 
-    kafka-topics --create --topic first-topic --partitions 3 --replication-factor 3 --bootstrap-server kafka:9092
+    kafka-topics --create --topic users --partitions 3 --replication-factor 3 --bootstrap-server kafka:9092
 
 Exit from the bash shell and return to your Confluent Cloud console and refresh the topic list to see new topic 
 appearing.
 
 ### Create a Datagen connector to create some data (and a schema)
+
+We have added the connector plugin for the Datagen connector to your Confluent cluster. Now is the time to make use of 
+it. Running a connector ensures we have a steady load of messages we can observe in the Confluent Cloud. It is 
+also an easy way to create a schema for the next lab.
+
+An easy way to set up a connector is to use the Control Center. You can make it accessible by using Kubernetes 
+port-forwarding:
+
+    kubectl port-forward --address 0.0.0.0 controlcenter-0 9021:9021
+
+Then go to your browser and access the [Control Center](localhost:9021). Enter the cluster and navigate to Connect and
+your connect cluster.
+
+Click on **Add connector**, choose the **DatagenConnector**, give it a name if you like, then add the following information:
+
+| Key                   | Value                                   |
+|-----------------------|-----------------------------------------|
+| Value converter class | io.confluent.connect.avro.AvroConverter |
+| kafka.topic           | users                                   |
+| quickstart            | users                                   |
+
+We need to add another property to specify the schema registry URL, but we need to add this by hand. 
+Click on **Add a property**, then insert `value.converter.schema.registry.url` here and press **Continue**.
+
+Back in the properties, set the schema registry to `http://schemaregistry.confluent.svc.cluster.local:8081`.
+
+When you click next, your JSON configuration should look like this:
+
+    {
+        "name": "DG_Users",
+        "config": {
+            "value.converter.schema.registry.url": "http://schemaregistry.confluent.svc.cluster.local:8081",
+            "name": "DG_Users",
+            "connector.class": "io.confluent.kafka.connect.datagen.DatagenConnector",
+            "value.converter": "io.confluent.connect.avro.AvroConverter",
+            "kafka.topic": "first-topic",
+            "quickstart": "users"
+        }
+    }
+
 
 
 # Continue with [Lab2](Lab2.md)
