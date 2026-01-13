@@ -217,7 +217,13 @@ When you click next, your JSON configuration should look like this:
         }
     }
 
+Go ahead and complete the installation of the connector. You might have to refresh the Connector page in the 
+Control Center to see it deployed. It should be up and running in a few seconds.
 
+Head over to the Confluent Cloud and navigate into your Confluent Platform Cluster, and then to the Connector page.
+You should see the connector stats popping up there almost immediately.
+
+Congratulations, you have finished Lab 1. It is time to head over to Lab 2 to look at the schema registry as well.
 
 # Continue with [Lab2](Lab2.md)
 
