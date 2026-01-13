@@ -11,8 +11,11 @@ There is a ready-made cluster for you using the file `cp.yaml` that can simply b
 This will take a few minutes to complete. You can use `k9s`, `kubectl get pods -w` or a similar method to watch the
 cluster being deployed.
 
-Once the deployment is complete, we need the cluster id. The easiest way to get to that information is to use
-the Confluent Control Center. Make it accessible via
+Once the deployment is complete, we need the cluster id. You can simply use this command:
+
+    kubectl describe kafka | grep "Cluster ID"
+
+Alternatively, you can use the Confluent Control Center. Make it accessible via
 
     kubectl port-forward --address 0.0.0.0 controlcenter-0 9021:9021
 
@@ -198,7 +201,7 @@ Click on **Add connector**, choose the **DatagenConnector**, give it a name if y
 | kafka.topic           | users                                   |
 | quickstart            | users                                   |
 
-We need to add another property to specify the schema registry URL, but we need to add this by hand. 
+We need to provide another property to specify the schema registry URL, but we need to add this by hand. 
 Click on **Add a property**, then insert `value.converter.schema.registry.url` here and press **Continue**.
 
 Back in the properties, set the schema registry to `http://schemaregistry.confluent.svc.cluster.local:8081`.
