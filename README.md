@@ -39,7 +39,7 @@ the environment and service user within the Confluent Cloud.
 Also adjust `bootcamp-key-name` to ensure it is unique within your AWS account. Do the same with the `usm-manager` 
 for the Confluent Cloud if required.
 
-Refer to [EKS](eks.tf) if you want to use an EKS cluster (which will take longer to set up).
+Refer to [EKS](EKS.md) if you want to use an EKS cluster (which will take longer to set up).
 
 ### CCloud credentials
 
@@ -65,7 +65,7 @@ Once this has run through, you can deploy the full setup:
 
 ## Kubernetes setup
 
-There are two alternative setups you can use, EKS or Kind on a single instance. Refer to [EKS](eks.tf) for details
+There are two alternative setups you can use, EKS or Kind on a single instance. Refer to [EKS](EKS.md) for details
 on the EKS setup. 
 
 ### Kind setup
