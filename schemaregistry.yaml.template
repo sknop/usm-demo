@@ -1,0 +1,23 @@
+---
+apiVersion: platform.confluent.io/v1beta1
+kind: SchemaRegistry
+metadata:
+  name: schemaregistry
+  namespace: confluent
+spec:
+  image:
+    application: confluentinc/cp-schema-registry:8.1.0
+    init: confluentinc/confluent-init-container:3.1.0
+  replicas: 3
+  unifiedStreamManager:
+    enabled: true
+    remoteSchemaRegistry:
+      endpoint: <YOUR CCLOUD SR ENDPOINT HERE>
+      authentication:
+        type: basic
+        basic:
+          secretRef: cc-sr-credentials
+  enableSchemaImporter: true
+  enableSchemaExporter: true
+  passwordEncoder:
+    secretRef: password-encoder-secret
