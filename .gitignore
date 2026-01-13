@@ -11,3 +11,5 @@ usmagent.yaml
 ccloud-creds.txt
 cc-sr-creds.txt
 schemaregistry.yaml
+schema-exporter.yaml
+schema-importer.yaml
