@@ -45,7 +45,8 @@ with your saved Schema registry endpoint:
 
     cp schemaregistry.yaml.template schemaregistry.yaml
     vi schemaregistry.yaml # or your favourite editor, replace place holder with SR endpoint
-    
+    kubectl apply -f schemaregistry.yaml
+
 ### Set up exporters and importers
 
 As a final step we are going to set up the schema exporters and importers. There are two template files we need 

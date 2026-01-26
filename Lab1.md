@@ -13,7 +13,7 @@ cluster being deployed.
 
 Once the deployment is complete, we need the cluster id. You can simply use this command:
 
-    kubectl describe kafka | grep "Cluster ID"
+    kubectl describe kafka | grep "Cluster Id"
 
 Alternatively, you can use the Confluent Control Center. Make it accessible via
 
@@ -78,7 +78,7 @@ resources themselves. The command
 
     kubectl describe kafka
 
-lists information about the cluster you have deployed. One of the entries in the output is the `Cluster ID` you can
+lists information about the cluster you have deployed. One of the entries in the output is the `Cluster Id` you can
 filter for.
 
 ![Register your Confluent Platform cluster](images/RegisterCluster.png)

@@ -81,7 +81,7 @@ to your jump host:
 
 After verifying that you can connect, return to your local machine and upload the setup script and all yaml files, for example:
 
-    scp -i bootcamp.pem kind/* *.yaml *.txt ubuntu@<JUMPHOST IP ADDRESS>:   # do not forget the colon
+    scp -i bootcamp.pem kind/* *.yaml *.template password-encoder-secret.txt ubuntu@<JUMPHOST IP ADDRESS>:   # do not forget the colon
 
 Log back into your jumphost and run this script to complete the installation. You might have to change the permissions to be executable.
 
