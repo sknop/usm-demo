@@ -81,6 +81,6 @@ In the spirit of **#tasty-not-wasty**, please clean up your resources again once
     terraform destroy -auto-approve
 
 This command will destroy any AWS resources you have created and also remove the registration of your platform cluster,
-the schema registry and the environment in Confluent Cloud.
+the schema registry and the environment in Confluent Cloud. **This includes the VPC which is always a contested resource.**
 
 **Congratulations, you reached the end of the workshop**
