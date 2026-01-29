@@ -8,5 +8,8 @@ private-subnets-cidr = [ "172.30.64.0/20", "172.30.80.0/20", "172.30.96.0/20" ]
 public-availability-zones = [ "us-west-2a", "us-west-2b", "us-west-2c" ]
 private-availability-zones = [ "us-west-2a", "us-west-2b", "us-west-2c" ]
 
+confluent_api_key=<YOUR CCLOUD API Key>
+confluent_api_secret=<YOUR CCLOUD API Secret>
+
 jumphost-instance-type = "r6i.2xlarge"
 enable_eks = false
