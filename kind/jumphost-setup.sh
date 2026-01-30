@@ -9,7 +9,7 @@ sudo apt install -y docker.io
 sudo usermod -G docker ubuntu
 
 # Install kind
-curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.30.0/kind-linux-amd64
+curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.31.0/kind-linux-amd64
 chmod +x kind && sudo mv kind /usr/local/bin
 
 # Install helm
