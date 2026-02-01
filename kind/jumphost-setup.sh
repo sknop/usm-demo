@@ -23,7 +23,7 @@ sudo git clone https://github.com/ahmetb/kubectx /usr/local/kubectx
 sudo ln -s /usr/local/kubectx/kubectx /usr/local/bin/kubectx
 sudo ln -s /usr/local/kubectx/kubens /usr/local/bin/kubens
 
-wget https://github.com/derailed/k9s/releases/download/v0.50.16/k9s_linux_amd64.apk
+wget https://github.com/derailed/k9s/releases/download/v0.50.18/k9s_linux_amd64.apk
 tar xvf k9s_linux_amd64.apk
 sudo cp usr/bin/k9s /usr/local/bin
 rm -r usr
