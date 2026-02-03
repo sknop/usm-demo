@@ -13,3 +13,5 @@ confluent_api_secret=<YOUR CCLOUD API Secret>
 
 jumphost-instance-type = "r6i.2xlarge"
 enable_eks = false
+
+my-ip = "24.75.208.0/24"
